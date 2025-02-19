@@ -1,0 +1,29 @@
+# yocto build directori
+build
+
+# resolve repo
+.repo
+setupsdk
+sources/poky
+sources/manifest
+sources/yocto-scripts
+sources/meta-aws
+sources/meta-kria
+sources/meta-openembedded
+sources/meta-rauc
+sources/meta-system-controller
+sources/meta-xilinx
+sources/meta-amd-adaptive-socs
+sources/meta-embedded-plus
+sources/meta-mingw
+sources/meta-petalinux
+sources/meta-ros
+sources/meta-virtualization
+sources/meta-xilinx-tools
+sources/meta-arm
+sources/meta-jupyter
+sources/meta-openamp
+sources/meta-qt5
+sources/meta-security
+sources/meta-vitis
+sources/meta-xilinx-tsn
