@@ -48,6 +48,8 @@ $ bitbake-layers add-layer meta-build
 >       以前調べてたときに、`build`ディレクトリ下にbuild時の`PATH`を設定しているファイルがある。
 >       これが`/bin`を直接指定しているため、userの`PATH`を参照しない。
 >       そのため、ここを変更すれば良さそう。(どこに書いてたか忘れちゃった...)
+>       - `/home/kanta/sc/kria-yocto/build/tmp/hosttools`
+>           ここに、`/sbin/<hoge>`へのシンボリックリンクが貼られている。
 
 > [!note]
 > pythonのモジュールが必要なものがある。
