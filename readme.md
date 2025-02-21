@@ -57,6 +57,8 @@ $ bitbake-layers add-layer meta-build
 >       そのため、ここを変更すれば良さそう。(どこに書いてたか忘れちゃった...)
 >       - `/home/kanta/sc/kria-yocto/build/tmp/hosttools`
 >           ここに、`/sbin/<hoge>`へのシンボリックリンクが貼られている。
+>           `source setupsdk`のタイミングで生成される。
+>           ビルド毎に生成しているわけではなさそうなので、シンボリックリンクを張り替えてもいけるのでは...?
 
 > [!note]
 > pythonのモジュールが必要なものがある。
