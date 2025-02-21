@@ -28,6 +28,13 @@ $ ls sources
 $ source setupsdk
 ```
 
+> [!note]
+> `bitbake`を動かすためにいくつかの依存関係の解決が必要
+> - archlinux
+>   ```
+>   $ paru -S rpcsvc-proto chrpath cpio diffstat
+>   ```
+
 いくつかバグがあったので、パッチを当てるlayerを`build/conf/bblayer.conf`に追加する。
 ```
 $ cd sources
