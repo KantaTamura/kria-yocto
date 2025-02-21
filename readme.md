@@ -78,7 +78,9 @@ $ MACHINE=k26-smk-kv-sdt bitbake kria-image-full-cmdline
 
 ### bug fix
 
-- `qemu-xilinx-native`recipeで`struct sched_attr`の二重定義エラーが発生する
+#### `qemu-xilinx-native` recipe
+
+`struct sched_attr`の二重定義エラーが発生する
 
 > [!note]
 > おそらく、linuxのバージョンが新しすぎるのが問題 (?)
