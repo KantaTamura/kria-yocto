@@ -167,6 +167,74 @@ LAYERDEPENDS_meta-build = "core"
 LAYERSERIES_COMPAT_meta-build = "scarthgap"
 ```
 
+### `python3-lxml` recipe
+
+> [!caution]
+> 環境依存のバグ
+> - 手元のマシン
+>   ```
+>   Could not find function xmlCheckVersion in library libxml2. Is libxml2 installed?
+>   ```
+> - 別のマシン
+>   ビルド通る
+
+### `ninja` recipe
+
+> [!caution]
+> python3.13だと削除された`pipes`パッケージを利用している。
+> python3.12にダウングレードして対策していたが、python3.12のライブラリ側がクロスコンパイルに対応していないためエラー...
+> python3.13でも動くようにパッチを当てる方針に転換
+
+- make patch
+```
+$ cd build/tmp/work/x86_64-linux/ninja-native/1.11.1/git
+$ nvim configure.py
+$ git diff --staged > 0001-duplicated-pipes-package.patch
+```
+
+- apply patch recipe
+```
+$ mkdir -p meta-build/recipes-devtools/ninja/files
+$ cat meta-build/recipes-devtools/ninja/ninja_%.bbappend
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+
+SRC_URI:append = " file://0001-deplicated-pipes-package.patch"
+
+$ cat meta-build/recipes-devtools/ninja/files/0001-duplicated-pipes-package.patch
+Upstream-Status: Pending
+
+diff --git a/configure.py b/configure.py
+index 43904349..c80a43b6 100755
+--- a/configure.py
++++ b/configure.py
+@@ -23,7 +23,7 @@ from __future__ import print_function
+ 
+ from optparse import OptionParser
+ import os
+-import pipes
++import shlex
+ import string
+ import subprocess
+ import sys
+@@ -264,7 +264,7 @@ n.variable('configure_args', ' '.join(configure_args))
+ env_keys = set(['CXX', 'AR', 'CFLAGS', 'CXXFLAGS', 'LDFLAGS'])
+ configure_env = dict((k, os.environ[k]) for k in os.environ if k in env_keys)
+ if configure_env:
+-    config_str = ' '.join([k + '=' + pipes.quote(configure_env[k])
++    config_str = ' '.join([k + '=' + shlex.quote(configure_env[k])
+                            for k in configure_env])
+     n.variable('configure_env', config_str + '$ ')
+ n.newline()
+```
+
+> [!note]
+> `do_patch`で怒られる可能性があるので、パッチファイルの先頭に`Upstream-Status`を追加しておく
+> - `Accepted`: すでに upstream に取り込まれた変更
+> - `Pending`: upstream に提案されているが、まだ取り込まれていない変更
+> - `Denied`: upstream に拒否されたが、Yocto で必要
+> - `Backport`: upstream の新しいバージョンから取り込んだもの
+> - `Inappropriate <hoge>`: upstream に適用するのが適切でない Yocto 独自の変更
+
 ### MACHINE and Recipe Name
 
 [Yocto Kria Support](https://xilinx.github.io/kria-apps-docs/yocto/build/html/docs/yocto_kria_support.html#machine-configurations-for-kria)を参考に設定する。
