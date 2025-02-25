@@ -32,7 +32,7 @@ $ source setupsdk
 > `bitbake`を動かすためにいくつかの依存関係の解決が必要
 > - archlinux
 >   ```
->   $ paru -S rpcsvc-proto chrpath cpio diffstat
+>   $ paru -S rpcsvc-proto chrpath cpio diffstat inetutils
 >   ```
 
 いくつかバグがあったので、パッチを当てるlayerを`build/conf/bblayer.conf`に追加する。
@@ -274,6 +274,19 @@ $ cp tmp/deploy/images/k24-smk/devicetree/SMK-*.dtb <dtb_path>
     ```
     $ MACHINE=kria-zynqmp-generic bitbake kria-image-full-cmdline
     ```
+
+### limit parallel threads
+
+- `local.conf`
+```
+BB_NUMBER_THREADS = '16'
+PARALLEL_MAKE = '-j 16'
+```
+
+- `BB_NUMBER_THREADS`: レシピの並列数
+- `PARALLEL_MAKE`: ビルド時の並列数
+
+- [Yocto ビルド並列数の調整方法](https://qiita.com/byuu/items/95086d07e317dfe64ee2)
 
 ## run QEMU
 
