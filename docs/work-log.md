@@ -167,7 +167,7 @@ LAYERDEPENDS_meta-build = "core"
 LAYERSERIES_COMPAT_meta-build = "scarthgap"
 ```
 
-### `python3-lxml` recipe
+#### wip: `python3-lxml` recipe
 
 > [!caution]
 > 環境依存のバグ
@@ -178,7 +178,7 @@ LAYERSERIES_COMPAT_meta-build = "scarthgap"
 > - 別のマシン
 >   ビルド通る
 
-### `ninja` recipe
+#### `ninja` recipe
 
 > [!caution]
 > python3.13だと削除された`pipes`パッケージを利用している。
@@ -234,6 +234,21 @@ index 43904349..c80a43b6 100755
 > - `Denied`: upstream に拒否されたが、Yocto で必要
 > - `Backport`: upstream の新しいバージョンから取り込んだもの
 > - `Inappropriate <hoge>`: upstream に適用するのが適切でない Yocto 独自の変更
+
+#### wip: pseudo error
+
+```
+ERROR: Task (/home/kanta/workspace/sc/kria-yocto/sources/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_package) failed with exit code '134' 
+Pseudo log:
+path mismatch [2 links]: ino 4042882 db '/home/kanta/workspace/sc/kria-yocto/build/tmp/work/cortexa72-cortexa53-xilinx-linux/linux-libc-headers/6.6/packages-split/linux-libc-headers-lic/usr/share/licenses/linux-libc-headers/generic_GPL-2.0-only' req '/home/kanta/workspace/sc/kria-yocto/build/tmp/work/cortexa72-cortexa53-xilinx-linux/linux-libc-headers/6.6/sstate-build-package/package/usr/share/licenses/linux-libc-headers/generic_GPL-2.0-only'.
+Setup complete, sending SIGUSR1 to pid 2292870.
+```
+
+このようなエラーがいくつかのレシピで発生する。
+
+`PSEUDO_IGNORE_PATHS`に追加しまくれば、なんとかなる気がするが、根本的な解決じゃない + パッチを当てるレシピが膨大になりそうなので一旦調査。
+
+- [Pseudo Abort](https://wiki.yoctoproject.org/wiki/Pseudo_Abort)
 
 ### MACHINE and Recipe Name
 
