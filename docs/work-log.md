@@ -204,6 +204,40 @@ $ NO_FETCH_BUILD=1 \
 何らかの手段で、コードを自動生成している？
 -> その部分がうまく生成できていない。
 
+- 原因
+    - host build
+        ```
+        $ python3 setup.py bdist_wheel --verbose --dist-dir dist
+        ...
+        building 'lxml.etree' extension
+        creating build/temp.linux-x86_64-cpython-313/src/lxml
+        ...
+        ```
+    - yocto build
+        ```
+        $ NO_FETCH_BUILD=1 \
+        STAGING_INCDIR=/home/kanta/workspace/sc/kria-yocto/build/tmp/work/x86_64-linux/python3-lxml-native/5.0.0/recipe-sysroot-native/usr/include \
+        STAGING_LIBDIR=/home/kanta/workspace/sc/kria-yocto/build/tmp/work/x86_64-linux/python3-lxml-native/5.0.0/recipe-sysroot-native/usr/lib \
+        /home/kanta/workspace/sc/kria-yocto/build/tmp/work/x86_64-linux/python3-lxml-native/5.0.0/recipe-sysroot-native/usr/bin/python3-native/python3 setup.py \
+        bdist_wheel --verbose --dist-dir /home/kanta/workspace/sc/kria-yocto/build/tmp/work/x86_64-linux/python3-lxml-native/5.0.0/dist
+        ...
+        building 'lxml.etree' extension
+        creating build/temp.linux-x86_64-cpython-312
+        creating build/temp.linux-x86_64-cpython-312/src
+        creating build/temp.linux-x86_64-cpython-312/src/lxml
+        ...
+        ```
+    これもpython3.12起因のバグな気がする...
+    自動生成するCPythonがv3.12、ホストの環境はより新しいgccを使っているので、構造体の構成が異なり、エラーが発生している
+    -> lxml内部でCPythonを使ってる？
+    ```
+    $ ls build/
+     lib.linux-x86_64-cpython-312/   lib.linux-x86_64-cpython-313/   temp.linux-x86_64-cpython-312/   temp.linux-x86_64-cpython-313/
+    ```
+    -> v3.13用のlibが生成されてるけど使われてない...??
+    -> もしかしたら、手動で`python3 setup.py bdist_wheel`したときに生成されたかも。
+    -> `log.do_compile`には乗っていないため。
+    何を見てv3.12を使っているのか?
 
 #### `ninja` recipe
 
