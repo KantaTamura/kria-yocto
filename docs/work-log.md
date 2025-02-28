@@ -244,9 +244,24 @@ path mismatch [2 links]: ino 4042882 db '/home/kanta/workspace/sc/kria-yocto/bui
 Setup complete, sending SIGUSR1 to pid 2292870.
 ```
 
+- よく出るエラー
+```
+  /home/kanta/workspace/sc/kria-yocto/sources/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package
+  /home/kanta/workspace/sc/kria-yocto/sources/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_package
+  /home/kanta/workspace/sc/kria-yocto/sources/poky/meta/recipes-extended/timezone/tzdata.bb:do_package
+  /home/kanta/workspace/sc/kria-yocto/sources/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_package
+```
+
 このようなエラーがいくつかのレシピで発生する。
 
 `PSEUDO_IGNORE_PATHS`に追加しまくれば、なんとかなる気がするが、根本的な解決じゃない + パッチを当てるレシピが膨大になりそうなので一旦調査。
+-> `PSEUDO_IGNORE_PATHS`に追加すると、ビルドに失敗する
+
+- 推測・対処法
+    1. buildディレクトリを削除する
+        `do_clean`や`do_cleanall`でも同様のエラーがでる。
+    2. (wip) DBは `build/tmp/` 下に生成されているが、ずっとメモリ上にある説？
+        `source setupsdk`したshellを閉じるとうまく行くかも
 
 - [Pseudo Abort](https://wiki.yoctoproject.org/wiki/Pseudo_Abort)
 
