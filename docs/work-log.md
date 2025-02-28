@@ -176,7 +176,34 @@ LAYERSERIES_COMPAT_meta-build = "scarthgap"
 >   Could not find function xmlCheckVersion in library libxml2. Is libxml2 installed?
 >   ```
 > - 別のマシン
->   ビルド通る
+>   ビルド通る -> re-buildで通らない
+
+[lxml](https://github.com/lxml/lxml)をgithubから落としてきて、手元でビルドしてみる
+→ 手元の環境ではなく、yocto側が用意している環境依存であることを特定
+
+```
+$ gh repo clone lxml/lxml
+$ cd lxml
+
+$ python3 setup.py bdist_wheel --verbose --dist-dir dist
+# ok
+```
+
+> [!note]
+> `<workspace>/build/tmp/work/x86_64-linux/python3-lxml-native/5.0.0/temp/run.do_compile`を参考にビルド方法を指定
+
+手元の環境ならうまく行くので、`do_compile`と同様の方法でビルド
+```
+$ NO_FETCH_BUILD=1 \
+    STAGING_INCDIR=/home/kanta/workspace/sc/kria-yocto/build/tmp/work/x86_64-linux/python3-lxml-native/5.0.0/recipe-sysroot-native/usr/include \
+    STAGING_LIBDIR=/home/kanta/workspace/sc/kria-yocto/build/tmp/work/x86_64-linux/python3-lxml-native/5.0.0/recipe-sysroot-native/usr/lib \
+    /home/kanta/workspace/sc/kria-yocto/build/tmp/work/x86_64-linux/python3-lxml-native/5.0.0/recipe-sysroot-native/usr/bin/python3-native/python3 setup.py \
+    bdist_wheel --verbose --dist-dir /home/kanta/workspace/sc/kria-yocto/build/tmp/work/x86_64-linux/python3-lxml-native/5.0.0/dist
+# error
+```
+何らかの手段で、コードを自動生成している？
+-> その部分がうまく生成できていない。
+
 
 #### `ninja` recipe
 
