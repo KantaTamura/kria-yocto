@@ -326,6 +326,21 @@ Setup complete, sending SIGUSR1 to pid 2292870.
 
 - [Pseudo Abort](https://wiki.yoctoproject.org/wiki/Pseudo_Abort)
 
+#### xilinx recipes fetch error
+
+つぎのようなフェッチエラーがたまに発生する
+- リポジトリ側が原因な気がする...
+
+成功するまでビルドすればok
+
+```
+WARNING: mc:k26-smk-kv-sdt-cortexa53-fsbl:xilstandalone-2024.2+git-r0 do_fetch: Failed to fetch URL git://github.com/Xilinx/embeddedsw.git;protocol=https;branch=xlnx_rel_v2024.2, attempting MIRRORS if available
+ERROR: mc:k26-smk-kv-sdt-cortexa53-fsbl:xilstandalone-2024.2+git-r0 do_fetch: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"; export PATH="/home/kanta/workspace/sc/nix-kria/build/tmp-k26-smk-kv-sdt-cortexa53-fsbl/sysroots-uninative/x86_64-linux/usr/bin:/home/kanta/workspace/sc/nix-kria/build/tmp-k26-smk-kv-sdt-cortexa53-fsbl/work/cortexa53-xilinx-elf/xilstandalone/2024.2+git/recipe-sysroot-native/usr/bin/python3-native:/home/kanta/workspace/sc/nix-kria/sources/poky/scripts:/home/kanta/workspace/sc/nix-kria/build/tmp-k26-smk-kv-sdt-cortexa53-fsbl/work/cortexa53-xilinx-elf/xilstandalone/2024.2+git/recipe-sysroot-native/usr/bin/aarch64-xilinx-elf:/home/kanta/workspace/sc/nix-kria/build/tmp-k26-smk-kv-sdt-cortexa53-fsbl/work/cortexa53-xilinx-elf/xilstandalone/2024.2+git/recipe-sysroot/usr/bin/crossscripts:/home/kanta/workspace/sc/nix-kria/build/tmp-k26-smk-kv-sdt-cortexa53-fsbl/work/cortexa53-xilinx-elf/xilstandalone/2024.2+git/recipe-sysroot-native/usr/sbin:/home/kanta/workspace/sc/nix-kria/build/tmp-k26-smk-kv-sdt-cortexa53-fsbl/work/cortexa53-xilinx-elf/xilstandalone/2024.2+git/recipe-sysroot-native/usr/bin:/home/kanta/workspace/sc/nix-kria/build/tmp-k26-smk-kv-sdt-cortexa53-fsbl/work/cortexa53-xilinx-elf/xilstandalone/2024.2+git/recipe-sysroot-native/sbin:/home/kanta/workspace/sc/nix-kria/build/tmp-k26-smk-kv-sdt-cortexa53-fsbl/work/cortexa53-xilinx-elf/xilstandalone/2024.2+git/recipe-sysroot-native/bin:/home/kanta/workspace/sc/nix-kria/sources/poky/bitbake/bin:/home/kanta/workspace/sc/nix-kria/build/tmp-k26-smk-kv-sdt-cortexa53-fsbl/hosttools"; export HOME="/home/kanta"; LANG=C git -c gc.autoDetach=false -c core.pager=cat -c safe.bareRepository=all clone --bare --mirror https://github.com/Xilinx/embeddedsw.git /home/kanta/workspace/sc/nix-kria/build/downloads/git2/github.com.Xilinx.embeddedsw.git --progress failed with exit code 128, see logfile for output
+ERROR: mc:k26-smk-kv-sdt-cortexa53-fsbl:xilstandalone-2024.2+git-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'git://github.com/Xilinx/embeddedsw.git;protocol=https;branch=xlnx_rel_v2024.2')
+ERROR: Logfile of failure stored in: /home/kanta/workspace/sc/nix-kria/build/tmp-k26-smk-kv-sdt-cortexa53-fsbl/work/cortexa53-xilinx-elf/xilstandalone/2024.2+git/temp/log.do_fetch.2126488
+ERROR: Task (mc:k26-smk-kv-sdt-cortexa53-fsbl:/home/kanta/workspace/sc/nix-kria/sources/poky/../meta-xilinx/meta-xilinx-standalone-sdt/recipes-libraries/xilstandalone_2024.2.bb:do_fetch) failed with exit code '1'
+```
+
 ### MACHINE and Recipe Name
 
 [Yocto Kria Support](https://xilinx.github.io/kria-apps-docs/yocto/build/html/docs/yocto_kria_support.html#machine-configurations-for-kria)を参考に設定する。
