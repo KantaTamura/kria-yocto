@@ -167,7 +167,7 @@ LAYERDEPENDS_meta-build = "core"
 LAYERSERIES_COMPAT_meta-build = "scarthgap"
 ```
 
-#### wip: `python3-lxml` recipe
+#### `python3-lxml` recipe
 
 > [!caution]
 > 環境依存のバグ
@@ -238,6 +238,15 @@ $ NO_FETCH_BUILD=1 \
     -> もしかしたら、手動で`python3 setup.py bdist_wheel`したときに生成されたかも。
     -> `log.do_compile`には乗っていないため。
     何を見てv3.12を使っているのか?
+
+- 原因2
+    gcc14だと、python3.12のcythonが生成したコードをコンパイルできないのが原因。
+    パッチを当てれば対策できそうだが、一旦gcc-13以下にすることで回避。
+
+    - [gevent-24.2.1: Fails to build with GCC 14 due to -Wincompatible-pointer-types](https://github.com/gevent/gevent/issues/2049)
+    - [gevent fails to build with Cython 3.0.10](https://github.com/gevent/gevent/issues/2031)
+    - [Fix bad self casts when calling methods of final types](https://github.com/cython/cython/pull/6085)
+
 
 #### `ninja` recipe
 
