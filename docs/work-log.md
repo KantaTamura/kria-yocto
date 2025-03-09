@@ -350,6 +350,14 @@ ERROR: Logfile of failure stored in: /home/kanta/workspace/sc/nix-kria/build/tmp
 ERROR: Task (mc:k26-smk-kv-sdt-cortexa53-fsbl:/home/kanta/workspace/sc/nix-kria/sources/poky/../meta-xilinx/meta-xilinx-standalone-sdt/recipes-libraries/xilstandalone_2024.2.bb:do_fetch) failed with exit code '1'
 ```
 
+### build environment
+
+archの環境依存の部分がでかすぎるので、nixで隠蔽したい。
+
+```
+$ nix develop --no-write-lock-file github:KantaTamura/nix-environments#yocto
+```
+
 ### MACHINE and Recipe Name
 
 [Yocto Kria Support](https://xilinx.github.io/kria-apps-docs/yocto/build/html/docs/yocto_kria_support.html#machine-configurations-for-kria)を参考に設定する。
