@@ -59,6 +59,17 @@ $ bitbake-layers add-layer meta-build
 >           ここに、`/sbin/<hoge>`へのシンボリックリンクが貼られている。
 >           `source setupsdk`のタイミングで生成される。
 >           ビルド毎に生成しているわけではなさそうなので、シンボリックリンクを張り替えてもいけるのでは...?
+>       ```
+>       $ echo $PATH
+>       /home/kanta/workspace/sc/nix-kria/build/tmp/sysroots-uninative/x86_64-linux/usr/bin/home/kanta/workspace/sc/nix-kria/sources/poky/scripts
+>       /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/recipe-sysroot-native/usr/bin/aarch64-xilinx-linux
+>       /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/recipe-sysroot/usr/bin/crossscripts
+>       /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/recipe-sysroot-native/usr/sbin
+>       /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/recipe-sysroot-native/usr/bin
+>       /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/recipe-sysroot-native/sbin
+>       /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/recipe-sysroot-native/bin
+>       /home/kanta/workspace/sc/nix-kria/sources/poky/bitbake/bin:/home/kanta/workspace/sc/nix-kria/build/tmp/hosttools
+>       ```
 
 > [!note]
 > pythonのモジュールが必要なものがある。
