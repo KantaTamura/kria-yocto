@@ -369,6 +369,52 @@ archの環境依存の部分がでかすぎるので、nixで隠蔽したい。
 $ nix develop --no-write-lock-file github:KantaTamura/nix-environments#yocto
 ```
 
+#### nfs-utils recipe rpcgen error
+
+```
+ERROR: nfs-utils-2.6.4-r0 do_compile: oe_runmake failed
+ERROR: nfs-utils-2.6.4-r0 do_compile: ExecutionError('/home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/temp/run.do_compile.455196', 1, None, None)
+ERROR: Logfile of failure stored in: /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/temp/log.do_compile.455196
+Log data follows:
+| NOTE: make -j 32
+| Making all in support
+| make[1]: Entering directory '/home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/nfs-utils-2.6.4/support'
+| Making all in export
+| make[2]: Entering directory '/home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/nfs-utils-2.6.4/support/export'
+| test -f mount_clnt.c && rm -rf mount_clnt.c || true
+| test -f mount_xdr.c && rm -rf mount_xdr.c || true
+| test -f mount.h && rm -rf mount.h || true
+| /home/kanta/workspace/sc/nix-kria/build/tmp/hosttools/rpcgen -c -i 0 -o mount_xdr.c mount.x
+| /home/kanta/workspace/sc/nix-kria/build/tmp/hosttools/rpcgen -l -o mount_clnt.c mount.x
+| /home/kanta/workspace/sc/nix-kria/build/tmp/hosttools/rpcgen -h -o mount.h mount.x
+| cannot find C preprocessor: aarch64-xilinx-linux-gcc -E --sysroot=/home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/recipe-sysroot  -mcpu=cortex-a72.cortex-a53+crc -mbranch-protection=standard -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
+| /home/kanta/workspace/sc/nix-kria/build/tmp/hosttools/rpcgen: C preprocessor failed with exit code 1
+| cannot find C preprocessor: aarch64-xilinx-linux-gcc -E --sysroot=/home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/recipe-sysroot  -mcpu=cortex-a72.cortex-a53+crc -mbranch-protection=standard -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
+| cannot find C preprocessor: aarch64-xilinx-linux-gcc -E --sysroot=/home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cor/home/kanta/workspace/sc/nix-kria/build/tmp/hosttools/rpcgen: C preprocessor failed with exit code 1
+| texa53-xilinx-linux/nfs-utils/2.6.4/recipe-sysroot  -mcpu=cortex-a72.cortex-a53+crc -mbranch-protection=standard -fstack-protectmake[2]: *** [Makefile:909: mount_xdr.c] Error 1
+| make[2]: *** Waiting for unfinished jobs....
+| or-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
+| /home/kanta/workspace/sc/nix-kria/build/tmp/hosttools/rpcgen: C preprocessor failed with exit code 1
+| make[2]: *** [Makefile:913: mount.h] Error 1
+| make[2]: *** [Makefile:905: mount_clnt.c] Error 1
+| make[2]: Leaving directory '/home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/nfs-utils-2.6.4/support/export'
+| make[1]: Leaving directory '/home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/nfs-utils-2.6.4/support'
+| make[1]: *** [Makefile:430: all-recursive] Error 1
+| make: *** [Makefile:471: all-recursive] Error 1
+| ERROR: oe_runmake failed
+| WARNING: /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/temp/run.do_compile.455196:190 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/temp/run.do_compile.455196, line 190
+| 	#2: die, /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/temp/run.do_compile.455196, line 174
+| 	#3: oe_runmake, /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/temp/run.do_compile.455196, line 169
+| 	#4: autotools_do_compile, /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/temp/run.do_compile.455196, line 164
+| 	#5: do_compile, /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/temp/run.do_compile.455196, line 159
+| 	#6: main, /home/kanta/workspace/sc/nix-kria/build/tmp/work/cortexa72-cortexa53-xilinx-linux/nfs-utils/2.6.4/temp/run.do_compile.455196, line 203
+ERROR: Task (/home/kanta/workspace/sc/nix-kria/sources/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb:do_compile) failed with exit code '1'
+```
+
+rpcgenでエラーを吐いているが、do_compileと同じ環境変数でビルドすると成功したので、bitbake経由でビルドするときだけ発生...?
+
 ### MACHINE and Recipe Name
 
 [Yocto Kria Support](https://xilinx.github.io/kria-apps-docs/yocto/build/html/docs/yocto_kria_support.html#machine-configurations-for-kria)を参考に設定する。
