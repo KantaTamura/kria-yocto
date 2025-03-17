@@ -454,6 +454,12 @@ $ source setupsdk
 $ MACHINE=k26-smk-kv-sdt bitbake kria-image-full-cmdline
 ```
 
+buildできた...packageのバージョンなどの依存関係の問題がでかそう...
+
+次の方針
+- ディレクトリをマウントして、キャッシュがのこる+レシピの反映を行いやすくしよう
+- docker-composeでいい感じに記載できれば、ビルドコマンドが簡単になりそう
+
 ### MACHINE and Recipe Name
 
 [Yocto Kria Support](https://xilinx.github.io/kria-apps-docs/yocto/build/html/docs/yocto_kria_support.html#machine-configurations-for-kria)を参考に設定する。
