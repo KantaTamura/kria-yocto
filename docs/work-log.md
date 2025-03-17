@@ -414,6 +414,45 @@ ERROR: Task (/home/kanta/workspace/sc/nix-kria/sources/poky/meta/recipes-connect
 ```
 
 rpcgenでエラーを吐いているが、do_compileと同じ環境変数でビルドすると成功したので、bitbake経由でビルドするときだけ発生...?
+### docker(ubuntu22.04)
+
+```
+$ docker pull ubuntu:22.04
+$ docker run -it --rm --name yocto-env ubuntu:22.04
+```
+
+```
+$ apt update && apt upgrade
+$ apt install git tar python3 gcc make
+$ apt install build-essential chrpath cpio debianutils diffstat file gawk gcc git iputils-ping libacl1 liblz4-tool locales python3 python3-git python3-jinja2 python3-pexpect python3-pip python3-subunit socat texinfo unzip wget xz-utils zstd
+
+$ apt install repo
+$ git config --global user.email "tkanta496@gmail.com"
+$ git config --global user.name "Kanta Tamura"
+$ repo init -u https://github.com/Xilinx/yocto-manifests.git -b rel-v2024.2
+$ repo sync
+$ repo start rel-v2024.2 --all
+
+$ source setupsdk
+$ MACHINE=k26-smk-kv-sdt bitbake kria-image-full-cmdline
+```
+rootでbuildするなって怒られた...
+
+apt-getやlocale-genまでおこなったDockerfileを作成し、そこで作業する
+
+```
+$ docker build -t yocto-env .
+$ docker run -it --rm --name kria-build yocto-env
+
+$ git config --global user.email "tkanta496@gmail.com"
+$ git config --global user.name "Kanta Tamura"
+$ repo init -u https://github.com/Xilinx/yocto-manifests.git -b rel-v2024.2
+$ repo sync
+$ repo start rel-v2024.2 --all
+
+$ source setupsdk
+$ MACHINE=k26-smk-kv-sdt bitbake kria-image-full-cmdline
+```
 
 ### MACHINE and Recipe Name
 
