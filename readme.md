@@ -14,11 +14,6 @@ $ repo start rel-v2024.2 --all
 $ source setupsdk
 ```
 
-- apply patch layer
-```
-$ bitbake-layers add-layer ../sources/meta-build
-```
-
 ## build for KV260 (System-Device-Tree)
 
 ```
