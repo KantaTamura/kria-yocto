@@ -17,7 +17,8 @@ $ source setupsdk
 ## build for KV260 (System-Device-Tree)
 
 ```
-$ MACHINE=k26-smk-kv-sdt bitbake kria-image-full-cmdline
+$ docker compose build
+$ docker compose run build-kria
 ```
 
 ## run QEMU 
