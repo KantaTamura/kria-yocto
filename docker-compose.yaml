@@ -1,0 +1,14 @@
+services:
+  build-kria:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: xilinx-yocto
+    environment:
+      - MACHINE=k26-smk-kv-sdt
+    volumes:
+      - ./:/work
+    working_dir: /work
+    command: /bin/bash -c "source /work/setupsdk && bitbake kria-image-full-cmdline"
+    tty: true
+    stdin_open: true
