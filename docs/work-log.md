@@ -497,15 +497,15 @@ services:
     environment:
       - MACHINE=k26-smk-kv-sdt
     volumes:
-      - ${COMPOSE_PROJECT_DIRECTORY}:${COMPOSE_PROJECT_DIRECTORY}
+      - .:${PWD}
       - /opt/yocto:/opt/yocto
-    working_dir: ${COMPOSE_PROJECT_DIRECTORY}
-    command: /bin/bash -c "source ${COMPOSE_PROJECT_DIRECTORY}/setupsdk > /dev/null && bitbake kria-image-full-cmdline"
+    working_dir: ${PWD}
+    command: /bin/bash -c "source ${PWD}/setupsdk > /dev/null && bitbake kria-image-full-cmdline"
     tty: true
     stdin_open: true
 ```
 composeでマウントや環境変数(ビルドする対象のマシン名 etc.)などを記述したほうがDockerfileよりも構造化できて管理しやすそうなので採用。
-ホストと仮想環境内でパスが異なるとlocal.confの内容の差異でビルドできないので、`COMPOSE_PROJECT_DIRECTORY`で一致させている。
+ホストと仮想環境内でパスが異なるとlocal.confの内容の差異でビルドできないので、必ず`docker-compose.yaml`のあるディレクトリからビルドする必要がある。
 
 - ビルド方法
 ```
