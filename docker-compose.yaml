@@ -7,8 +7,9 @@ services:
     environment:
       - MACHINE=k26-smk-kv-sdt
     volumes:
-      - ./:/work
-    working_dir: /work
-    command: /bin/bash -c "source /work/setupsdk && bitbake kria-image-full-cmdline"
+      - ${COMPOSE_PROJECT_DIRECTORY}:${COMPOSE_PROJECT_DIRECTORY}
+      - /opt/yocto:/opt/yocto
+    working_dir: ${COMPOSE_PROJECT_DIRECTORY}
+    command: /bin/bash -c "source ${COMPOSE_PROJECT_DIRECTORY}/setupsdk > /dev/null && bitbake kria-image-full-cmdline"
     tty: true
     stdin_open: true
