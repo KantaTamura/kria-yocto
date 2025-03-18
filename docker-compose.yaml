@@ -13,3 +13,17 @@ services:
     command: /bin/bash -c "source ${PWD}/setupsdk > /dev/null && bitbake kria-image-full-cmdline"
     tty: true
     stdin_open: true
+  build-versal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: xilinx-yocto
+    environment:
+      - MACHINE=vhk158-versal
+    volumes:
+      - .:${PWD}
+      - /opt/yocto:/opt/yocto
+    working_dir: ${PWD}
+    command: /bin/bash -c "source ${PWD}/setupsdk > /dev/null && bitbake petalinux-image-minimal"
+    tty: true
+    stdin_open: true
