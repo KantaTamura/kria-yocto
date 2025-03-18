@@ -14,11 +14,18 @@ $ repo start rel-v2024.2 --all
 $ source setupsdk
 ```
 
+> [!note]
+> `build/conf/local.conf`に次の内容を追記すればbuildディレクトリを削除してもキャッシュが残り、ビルドが高速になる。
+> ```
+> DL_DIR ?= "/opt/yocto/downloads"
+> SSTATE_DIR ?= "/opt/yocto/sstate-cache"
+> ```
+
 ## build for KV260 (System-Device-Tree)
 
 ```
 $ docker compose build
-$ docker compose run build-kria
+$ docker compose run --rm build-kria
 ```
 
 ## run QEMU 

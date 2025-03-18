@@ -420,7 +420,6 @@ rpcgenでエラーを吐いているが、do_compileと同じ環境変数でビ�
 $ docker pull ubuntu:22.04
 $ docker run -it --rm --name yocto-env ubuntu:22.04
 ```
-
 ```
 $ apt update && apt upgrade
 $ apt install git tar python3 gcc make
@@ -459,6 +458,73 @@ buildできた...packageのバージョンなどの依存関係の問題がで�
 次の方針
 - ディレクトリをマウントして、キャッシュがのこる+レシピの反映を行いやすくしよう
 - docker-composeでいい感じに記載できれば、ビルドコマンドが簡単になりそう
+
+- `Dockerfile`
+```
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# install dependencies
+RUN apt-get update
+RUN apt-get install -y git tar python3 gcc make
+RUN apt-get install -y build-essential chrpath cpio debianutils diffstat file gawk gcc git iputils-ping libacl1 liblz4-tool locales python3 python3-git python3-jinja2 python3-pexpect python3-pip python3-subunit socat texinfo unzip wget xz-utils zstd
+RUN apt-get install -y repo
+
+# generate en_US.UTF-8 locale
+RUN locale-gen en_US.UTF-8
+
+# create a user
+# NOTE: yocto requires a non-root user
+RUN useradd -m dev
+USER dev
+WORKDIR /home/dev
+
+CMD ["/bin/bash"]
+```
+Ubuntu22.04の環境をベースにyoctoに必要なパッケージを取ってきている。
+rootではビルドできないので、ユーザを作成しそのユーザでログインするようにしている。
+
+- `docker-compose.yaml`
+```
+services:
+  build-kria:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: xilinx-yocto
+    environment:
+      - MACHINE=k26-smk-kv-sdt
+    volumes:
+      - ${COMPOSE_PROJECT_DIRECTORY}:${COMPOSE_PROJECT_DIRECTORY}
+      - /opt/yocto:/opt/yocto
+    working_dir: ${COMPOSE_PROJECT_DIRECTORY}
+    command: /bin/bash -c "source ${COMPOSE_PROJECT_DIRECTORY}/setupsdk > /dev/null && bitbake kria-image-full-cmdline"
+    tty: true
+    stdin_open: true
+```
+composeでマウントや環境変数(ビルドする対象のマシン名 etc.)などを記述したほうがDockerfileよりも構造化できて管理しやすそうなので採用。
+ホストと仮想環境内でパスが異なるとlocal.confの内容の差異でビルドできないので、`COMPOSE_PROJECT_DIRECTORY`で一致させている。
+
+- ビルド方法
+```
+$ docker compose build
+$ docker compose run --rm build-kria
+
+# debug
+$ docker compose run --rm build-kria bash
+```
+
+> [!note]
+> 手元のマシンではフルビルドに1.8時間ほど
+> ```
+> DL_DIR ?= "/opt/yocto/downloads"
+> SSTATE_DIR ?= "/opt/yocto/sstate-cache"
+> ```
+> を追記してキャッシュを行えば、15分ほどに短縮される。
+
+このマウントする方法なら、ホスト側でレシピを追加->bitbake-layerで追加しても仮想環境でも問題なくビルドできる。
 
 ### MACHINE and Recipe Name
 
